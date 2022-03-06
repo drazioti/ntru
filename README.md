@@ -1,4 +1,4 @@
-# ntru
+# NTRUencrypt
 Here we provide the pseudocode for generate keys in NTRUencypt.
 
 ![alt text](https://github.com/drazioti/ntru/blob/main/images/2022-03-06_17-24.png)
@@ -75,3 +75,33 @@ def gen_keys(N,d,p,q,e): # N,p primes,
     return f,g,h
 ```
 For instance see https://tinyurl.com/3czkd32u
+
+For the encryption we use the following pseudo code
+
+![alt text](https://github.com/drazioti/ntru/blob/main/images/2022-03-06_17-39.png)
+
+We provide the code for encryption and decryption,
+```
+# choose a random message
+left = ceil(-p/2)
+right = floor(p/2)
+M = Zx([randint(left,right) for i in range(N)])
+#print("the message M:",M) # the message
+r = T(d,d,N) #ephemeral key
+#show("the ephemeral key r:",r)
+
+### Encryption
+e1 = Convolution_in_R_p(h,p*r[1],N,q^exponent)
+e = e1 + M;
+print('the encryption e:',e)
+
+### Decryption
+m = q^exponent;
+a = Convolution_in_R_p(f,e,N,m)
+a = CenterLift(a,m,N)
+Fp = Invertmodprime(f,p,N)
+b=Convolution_in_R_p(Fp,a,N,p)
+dec = CenterLift(b,p,N)
+#print("decryption",dec)  
+print(dec==M)     #we check if we find the message m(x)
+```
