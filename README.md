@@ -109,3 +109,4 @@ Now our attack is the following.
 
 ![alt text](https://github.com/drazioti/ntru/blob/main/images/2022-03-06_18-17.png)
 
+In order to try our attack we need an oracle. ...
