@@ -1,6 +1,8 @@
 # NTRUencrypt
 Here we provide the pseudocode for generate keys in NTRUencypt.
 
+credits: Some functions are from https://latticehacks.cr.yp.to/ntru.html
+
 ![alt text](https://github.com/drazioti/ntru/blob/main/images/2022-03-06_17-24.png)
 
 In sagemath we have,

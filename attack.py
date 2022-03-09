@@ -66,3 +66,151 @@ def gen_keys(N,d,p,q,e):
     h = Convolution_in_R_p(Fq,g,N,q^e); # public key
     print("checking if f is inverted modq...",Convolution_in_R_p(f,Fq,N,q^e)==1)
     return f,g,h
+  
+# step 1-4
+
+def initial_param(N,q,exponent,y):
+    import random
+    # step 1
+    k = (N-1)/2
+    
+    # step 2
+    vector_a = [i for i in range(-k,0)] + [i for i in range(1,k+1)] + [floor(N*m^(1/y)) + 1] 
+    random.shuffle(vector_a[:N-1])
+    A = Zx(vector_a)
+    
+    # step 3
+    M_NTRU = matrix_for_the_lattice(N,q,exponent,A)
+    
+    
+    # step 4
+    B =Convolution_in_R_p(A,e,N,m);
+    Blist = B.coefficients(sparse=False);len(Blist)
+    
+    return A,k,vector_a,M_NTRU,b,Blist
+    
+def corrections(N,m,p,h,A,r):
+    C1 = Convolution_in_R_p(-p*A,r[1],N,m)
+    C = Convolution_in_R_p(C1,h,N,m);
+    # E must be an approximation of C_vector in order the attack succeedd
+    M_vector = M.coefficients(sparse=False)
+    C_vector = C.coefficients(sparse=False)
+    # we correct the vectors by appending zeros in the case their dimension is <N
+    
+    print len(M_vector),len(C_vector)
+    if len(M_vector)<N:
+        diff = N - len(M_vector)
+        M_vector.append(diff*[0])
+        M_vector=flatten(M_vector)
+    if len(C_vector)<N:
+        diff = N - len(C_vector)
+        C_vector.append(diff*[0])
+        C_vector=flatten(C_vector)
+        
+    print len(M_vector),len(C_vector)
+    return C_vector,M_vector
+    
+# step 5
+# Our oracle, which in each call returns an approximation of C
+
+def oracle(N,m,p,h,A,r,Range):
+    import random
+    Real = M_vector + C_vector # note that M_vector, C_vector are lists, so the sum is the concatenation of the two lists
+    u = M_vector + (vector(C_vector) + vector(Blist)).list()
+    temp  = vector(C_vector) + vector([randint(-Range,Range) for i in range(N)]);
+    E = [0]*N + list(temp);
+    #print E
+    return E
+
+def target_vector(N,Blist,E):
+    if len(Blist)==N:
+        t = vector(N*[0] + Blist) + vector(E)
+    return t # the target vector t = (0_N,b) + E    
+
+def LLL_reduction_of_M_NTRU(init_M_NTRU):        
+    def fptosage(A):
+        n = A.nrows
+        C = matrix(n)
+        for i in range(n):
+            C[i] = list(A[i])
+        return C
+    import time
+    from fpylll import IntegerMatrix,LLL
+    start = time.time()
+    M_NTRU_fplll = IntegerMatrix.from_matrix(init_M_NTRU)
+    LLL.reduction(M_NTRU_fplll, delta =0.99 )
+    M_NTRU = fptosage(M_NTRU_fplll)
+    print("LLL is done")
+    print("time for LLL:"),time.time()-start
+    return M_NTRU,M_NTRU_fplll 
+  
+def the_attack(N,m,p,h,A,r,Range,Blist,init_M_NTRU,M_NTRU1,counts,flag):
+    from fpylll import GSO
+    import time
+    
+    def fptosage(A):
+        n = A.nrows
+        C = matrix(n)
+        for i in range(n):
+            C[i] = list(A[i])
+        return C
+    
+    
+    def hits(L,M):
+        Len = len(L)
+        K = []
+        for i in range(Len):
+            if L[i]!=M[i]:
+                K.append(i)
+        Len1 = Integer(len(K))
+        percentage = ((Len-Len1)/Len) * 100
+        print "percentage:",float(percentage)
+        print "the lists differs in ",Len1," elements"
+        return 
+
+    print("N=",N)
+    print("d=",d)
+    print("p=",p)
+    print("q,e,q^e=",q,exponent,q^exponent)
+    print("range : |e_i-c_i|<= ",Range)
+    print("y=",y)
+    start =  time.time()
+    
+    # reduction #
+    if flag==1:
+        M_NTRU,M_NTRU_fplll = LLL_reduction_of_M_NTRU(init_M_NTRU)
+    if flag==2:
+        M_NTRU_fplll = M_NTRU1
+        M_NTRU = fptosage(M_NTRU_fplll)
+    M_GSO = GSO.Mat(M_NTRU_fplll)
+    M_GSO.update_gso()
+    
+    
+    
+    for i in range(counts):
+        start1 = time.time()
+        print "\n",i
+        print "======="
+       
+        # the oracle #
+        E = oracle(N,m,p,h,A,r,Range) 
+        
+        # the target vector #   
+        t = target_vector(N,Blist,E)
+        
+        # we apply Babai. We use fpylll implementation of Babai.
+        L = M_GSO.babai(t)
+      
+        w = sum(L[i]*M_NTRU[i] for i in range(M_NTRU_fplll.nrows)).list()
+        
+        print "babai done"
+        print "time for babai:",time.time()-start
+        print "success/fail:",list(w[0:N])== M_vector  
+    
+        #print (vector(u) - vector(w)).norm().n(),q^(1/y).n()
+        hits(list(w[0:N]),M_vector)
+      
+        if list(w[0:N])== M_vector: #or list(w_old[0:N])== M_vector:
+            print "total time for the loop:",time.time()-start1
+            break
+    print "total time for the attack:",time.time()-start
