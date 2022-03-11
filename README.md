@@ -13,4 +13,4 @@ In [fpylll](https://github.com/fplll/fpylll) LLL succeeded. For instance, for N=
 
 For ```N=509,557``` and ```677``` you can use the already reduced matrices from the direcory ```reduced_matrices/```. To compute the matrices in fpylll we use the code in ```ntru_large_matrices_reduction.ipynb```
 
-In the code (attack.py) there is an option in the function ```the_attack(.)``` to set ```flag=2```, then the code will use the reduced matrix from the file and will not compute LLL reduction of it.
+In the code (attack.py) there is an option in the function ```the_attack(.)``` to set ```flag=2```, then the code will use the reduced matrix from the file in the directory reduced_matrices/ and will not compute LLL reduction of it.
