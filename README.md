@@ -4,9 +4,27 @@
 
 [GPLv2]: https://img.shields.io/badge/license-GPLv2-lightgrey.svg
 
+
 An attack to NTRUencrypt was implemented using [sagemath](https://www.sagemath.org/) and [Fpylll](https://github.com/fplll/fpylll)
 
 The code is in [attack.py](./attack.py)
+
+[1] 
+
+## Authors
+
+* **K. A. draziotis** (drazioti@gmail.com)
+* **Marios Adamoudis** ()
+
+## License
+
+This project is licensed under the GPLv2 License
+
+## Getting Started
+
+You will nedd [sagemath](https://www.sagemath.org/) version >=8.5 and  [Fpylll](https://github.com/fplll/fpylll).
+
+-----
 
 In [generate.md](./generate.md) there is  sagemath code that generates a pair ```(pk,sk)``` for NTRU and a random plaintext and also its encryption (ciphertext).
 
