@@ -1,4 +1,9 @@
 # Message recovery attack to NTRU using a lattice independent from the public key
+
+![GPLv2][]
+
+[GPLv2]: https://img.shields.io/badge/license-GPLv2-lightgrey.svg
+
 An attack to NTRUencrypt was implemented using [sagemath](https://www.sagemath.org/) and [Fpylll](https://github.com/fplll/fpylll)
 
 The code is in [attack.py](./attack.py)
