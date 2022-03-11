@@ -202,6 +202,13 @@ def LLL_reduction_of_M_NTRU(init_M_NTRU):
     return M_NTRU,M_NTRU_fplll 
   
 def the_attack(N,m,p,h,A,r,Range,Blist,init_M_NTRU,M_NTRU1,counts,flag):
+    
+    # flag is 1 or 2
+    # N,m,p,h are public parameters
+    # init_M_NTRU is the custom NTRU matrix which depends on the vector a = (-k,k+1,...,0,1,2,...)
+    # counts, execute the algorithm for 'counts' times. Each time we choose a new vector E
+    # Range, is a parameter that constraints the choice of the vector E, |E_i-c_i|<Range.
+    
     from fpylll import GSO
     import time
     
@@ -237,7 +244,7 @@ def the_attack(N,m,p,h,A,r,Range,Blist,init_M_NTRU,M_NTRU1,counts,flag):
     # we use flag=1 in the case we reduce the basis (before we send it to babai) in sagemath
     if flag==1:
         M_NTRU,M_NTRU_fplll = LLL_reduction_of_M_NTRU(init_M_NTRU)
-    # we use glag=2 in the case we have aleready reduce our Ntru matrix in Fpylll.
+    # we use flag=2 in the case we have aleready reduce our Ntru matrix in Fpylll.
     # This is becouse in sagemath we get error for large values of N
     if flag==2:
         M_NTRU_fplll = M_NTRU1
