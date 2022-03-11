@@ -1,5 +1,62 @@
-# key generation for NTRUencrypt (we refer to NTRU-HPS)
 
+
+# some auxiliary function we use in the case we do not reduce our basis in sagemath but in FPyyll
+# In this case we use flag=2 in the function the_attack()
+# For small values of N, N<400 we do not need them
+# You have to hardcode the variable file
+
+file=r'/path/to/reduced_matrixN557q8192y2.5.txt'
+def mat2fp(A):
+    from fpylll import IntegerMatrix
+    L = IntegerMatrix(A.dimensions()[0],A.dimensions()[1])
+    for i in range(A.dimensions()[0]):
+        for j in range(A.dimensions()[1]):
+            L[i,j] = int(A[i,j])
+    return L
+
+def stringtorow(L):
+    M = []
+    i = 0
+    j = 0
+    item = ' '
+    left = 0
+    right = 0
+    item = L[0]
+    while i < len(L) - 1:
+        left = i
+        right = i
+        while item in ['-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+            i = i + 1
+            item = L[i]
+            right = i
+        M.append([i, L[left:right]])
+        i = i + 1
+        item = L[i]
+    Q = []
+    for i in range(len(M)):
+        if M[i][1] != '':
+            Q.append(int(M[i][1]))
+    return Q
+    
+def convert_file(file):
+    f = open(file, 'r')
+    temp = f.read()
+    f.close()
+    
+    f = open(file, 'w')
+    f.write("[")
+    f.write(temp)
+    f.write("]")
+    f.close()
+    M=[]
+    with open(file) as f:
+        for line in f:
+            M.append(stringtorow(line))
+    M=matrix([M[i] for i in range(len(M[0]))])
+    M=mat2fp(M)
+    return M
+
+# key generation for NTRUencrypt (we refer to NTRU-HPS)
 
 Zx.<x> = ZZ[]
 def T(d1,d2,N):
