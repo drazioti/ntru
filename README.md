@@ -8,12 +8,14 @@ An attack to NTRUencrypt was implemented using [sagemath](https://www.sagemath.o
 
 The code is in [attack.py](./attack.py)
 
+References:
+
 [1] 
 
 ## Authors
 
 * **K. A. draziotis** (drazioti@gmail.com)
-* **Marios Adamoudis** ()
+* **Marios Adamoudis** (marios.p7@hotmail.com )
 
 ## License
 
