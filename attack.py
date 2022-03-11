@@ -1,6 +1,6 @@
 
 
-# some auxiliary function we use in the case we do not reduce our basis in sagemath but in FPyyll
+# some auxiliary functions we use in the case we do not reduce our basis in sagemath but in FPyyll
 # In this case we use flag=2 in the function the_attack()
 # For small values of N, N<400 we do not need them
 # You have to hardcode the variable file
@@ -124,7 +124,7 @@ def gen_keys(N,d,p,q,e):
     print("checking if f is inverted modq...",Convolution_in_R_p(f,Fq,N,q^e)==1)
     return f,g,h
   
-# step 1-4
+# step 1-4 of the pseudocode of the attack
 
 def initial_param(N,q,exponent,y):
     import random
@@ -168,7 +168,7 @@ def corrections(N,m,p,h,A,r):
     return C_vector,M_vector
     
 # step 5
-# Our oracle, which in each call returns an approximation of C
+# Our oracle, which in each call returns an approximation of the vector C
 
 def oracle(N,m,p,h,A,r,Range):
     import random
@@ -234,15 +234,16 @@ def the_attack(N,m,p,h,A,r,Range,Blist,init_M_NTRU,M_NTRU1,counts,flag):
     start =  time.time()
     
     # reduction #
+    # we use flag=1 in the case we reduce the basis (before we send it to babai) in sagemath
     if flag==1:
         M_NTRU,M_NTRU_fplll = LLL_reduction_of_M_NTRU(init_M_NTRU)
+    # we use glag=2 in the case we have aleready reduce our Ntru matrix in Fpylll.
+    # This is becouse in sagemath we get error for large values of N
     if flag==2:
         M_NTRU_fplll = M_NTRU1
         M_NTRU = fptosage(M_NTRU_fplll)
     M_GSO = GSO.Mat(M_NTRU_fplll)
     M_GSO.update_gso()
-    
-    
     
     for i in range(counts):
         start1 = time.time()
@@ -260,14 +261,13 @@ def the_attack(N,m,p,h,A,r,Range,Blist,init_M_NTRU,M_NTRU1,counts,flag):
       
         w = sum(L[i]*M_NTRU[i] for i in range(M_NTRU_fplll.nrows)).list()
         
-        print "babai done"
-        print "time for babai:",time.time()-start
-        print "success/fail:",list(w[0:N])== M_vector  
+        print("babai done")
+        print("time for babai:",time.time()-start)
+        print("success/fail:",list(w[0:N])== M_vector)  
     
-        #print (vector(u) - vector(w)).norm().n(),q^(1/y).n()
         hits(list(w[0:N]),M_vector)
       
         if list(w[0:N])== M_vector: #or list(w_old[0:N])== M_vector:
-            print "total time for the loop:",time.time()-start1
+            print("total time for the loop:",time.time()-start1)
             break
-    print "total time for the attack:",time.time()-start
+    print("total time for the attack:",time.time()-start)
