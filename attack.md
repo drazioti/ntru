@@ -9,4 +9,7 @@ For N=557,q=8192 we got the message with babai as a cvp oracle.
 
 ![alt text](./images/2022-03-09_23-34.png)
 
+In the previous experiment we set ```count=100```, i.e. we pick 100 different vectors **E**, all having the propery
+**||E_i-c_i ||<=38**. In the second try, we found the message.
+
 See attack.py
