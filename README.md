@@ -17,6 +17,8 @@ References:
 * K. A. draziotis (drazioti@gmail.com)
 * Marios Adamoudis (marios.p7@hotmail.com )
 
+credits: Some functions are from https://latticehacks.cr.yp.to/ntru.html
+
 ## License
 
 This project is licensed under the GPLv2 License
