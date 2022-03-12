@@ -14,8 +14,8 @@ References:
 
 ## Authors
 
-* **K. A. draziotis** (drazioti@gmail.com)
-* **Marios Adamoudis** (marios.p7@hotmail.com )
+* K. A. draziotis (drazioti@gmail.com)
+* Marios Adamoudis (marios.p7@hotmail.com )
 
 ## License
 
