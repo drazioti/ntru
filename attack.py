@@ -10,6 +10,36 @@ Requirements : The code is written in Sagemath ver. 8.1
 
 '''
 
+# some auxiliary functions
+
+def matrix_for_the_lattice(N,q,exponent,h):
+    m = q^(exponent)
+    H = matrix(N)
+    I=identity_matrix(N)
+
+    Zero_Matrix=matrix(N)
+
+    for i in range(N):
+        for j in range(N):
+            H[i,j] = Convolution_in_R(h,x^i,N)[j]
+       
+    B_1=block_matrix([[I,H]])        
+    B_2=block_matrix([[Zero_Matrix,m*I]])
+    M_NTRU=block_matrix([[B_1],[B_2]])
+    return M_NTRU
+
+def LOG2(x):
+    if x==0:
+        return 0
+    else:
+        return log(x,2).n()
+        
+def bits(L):
+    M = []
+    for i in range(len(L)):
+        M.append(floor(log(L[i],2)) + 1)
+    return M
+
 # some auxiliary functions we use in the case we do not reduce our basis in sagemath but in FPyyll
 # In this case we use flag=2 in the function the_attack()
 # For small values of N, N<400 we do not need them
