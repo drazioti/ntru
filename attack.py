@@ -6,7 +6,44 @@ Requirements : The code is written in Sagemath ver. 8.1
           2021: initial version 
  REFERENCES:  http://www.sagemath.org/ 
  * Please report bugs *
+ 
+N,d,p,q,exponent = nth_prime(55),91,3,2,8
+f,g,h=gen_keys(N,d,p,q,exponent)
 
+# we choose a random message
+
+left = ceil(-p/2)
+right = floor(p/2)
+M = Zx([randint(left,right) for i in range(N)])
+#print("the message M:",M) # the message
+r = T(d,d,N) #ephemeral key
+#show("the ephemeral key r:",r)
+
+### Encryption
+e1 = Convolution_in_R_p(h,p*r[1],N,q^exponent)
+e = e1 + M;
+print('the encryption e:',e)
+
+### Decryption
+m = q^exponent;
+a = Convolution_in_R_p(f,e,N,m)
+a = CenterLift(a,m,N)
+Fp = Invertmodprime(f,p,N)
+b=Convolution_in_R_p(Fp,a,N,p)
+dec = CenterLift(b,p,N)
+print(dec==M)   # we check if we find the message m(x)
+
+### we set y
+y = 2.3
+A,k,vector_a,init_M_NTRU,B,Blist = initial_param(N,q,exponent,y)
+C_vector,M_vector=corrections(N,m,p,h,A,r)
+
+### and the attack
+
+counts = 100
+Range  = 6
+M_NTRU1 = []
+the_attack(N,m,p,h,A,r,Range,Blist,init_M_NTRU,M_NTRU1,counts,1)
 
 '''
 
