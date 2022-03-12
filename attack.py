@@ -1,4 +1,14 @@
+''' 
+Requirements : The code is written in Sagemath ver. 8.1
+  
+ AUTHORS: K. A. Draziotis (drazioti@gmail.com)
+          Marios Adamoudis (marios.p7@hotmail.com)
+          2021: initial version 
+ REFERENCES:  http://www.sagemath.org/ 
+ * Please report bugs *
 
+
+'''
 
 # some auxiliary functions we use in the case we do not reduce our basis in sagemath but in FPyyll
 # In this case we use flag=2 in the function the_attack()
