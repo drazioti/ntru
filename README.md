@@ -27,7 +27,8 @@ The images are provided with [CC BY 2.0](https://creativecommons.org/licenses/by
 
 ## Getting Started
 
-You will nedd [sagemath](https://www.sagemath.org/) version >=8.5 and  [Fpylll](https://github.com/fplll/fpylll).
+
+prerequisites : [sagemath](https://www.sagemath.org/) version >=8.5 and  [Fpylll](https://github.com/fplll/fpylll).
 
 -----
 
