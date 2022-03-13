@@ -43,3 +43,5 @@ In [fpylll](https://github.com/fplll/fpylll) LLL succeeded. For instance, for ``
 For ```N=509,557``` and ```677``` you can use the already reduced matrices from the directory [reduced_matrices/](./reduced_matrices). To compute the LLL- reduction of matrices in fpylll we use the code in [ntru_large_matrices_reduction.ipynb](./ntru_large_matrices_reduction.ipynb)
 
 In the code (attack.py) there is an option in the function ```the_attack(.)``` to set ```flag=2```, then the code will use the reduced matrix from the file in the directory ```reduced_matrices/``` it and will not compute LLL reduction on it.
+
+In [appendix.ipynb](./appendix.ipynb) there is  Fpylll code that checks suitable values (N,q,y) that satisfy the hypotheses of the Theorem.
