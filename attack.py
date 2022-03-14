@@ -77,12 +77,18 @@ def bits(L):
         M.append(floor(log(L[i],2)) + 1)
     return M
 
-# some auxiliary functions we use in the case we do not reduce our basis in sagemath but in FPyyll
-# In this case we use flag=2 in the function the_attack()
-# For small values of N, N<400 we do not need them
-# You have to hardcode the variable file
+## some auxiliary functions we use in the case we do not reduce our basis in sagemath but in FPyyll
+## In this case we use flag=2 in the function the_attack()
+## For small values of N, N<400 we do not need them
+## You have to hardcode the variable file
 
-file=r'/path/to/reduced_matrixN557q8192y2.5.txt'
+## uncomment accordingly, for the case of N=507, 557, 677
+#file=r'/path/to/reduced_matrixN507q2048y2.5.txt'
+#file=r'/path/to/reduced_matrixN677q2048y2.5.txt'
+#file=r'/path/to/reduced_matrixN557q8192y2.5.txt'
+
+## the follwoing vector is used only in the case N = 507
+#file_a =r'/home/draziotis/Downloads/a_N677q2048y2.5.txt'
 def mat2fp(A):
     from fpylll import IntegerMatrix
     L = IntegerMatrix(A.dimensions()[0],A.dimensions()[1])
@@ -201,21 +207,25 @@ def gen_keys(N,d,p,q,e):
     print("checking if f is inverted modq...",Convolution_in_R_p(f,Fq,N,q^e)==1)
     return f,g,h
   
-# step 1-4 of the pseudocode of the attack
+# step 1-4
 
 def initial_param(N,q,exponent,y):
     import random
     # step 1
-    k = (N-1)/2
-    
+    k = (N-1)/2    
     # step 2
-    vector_a = [i for i in range(-k,0)] + [i for i in range(1,k+1)] + [floor(N*m^(1/y)) + 1] 
+    # we uncomment the following line for N=677, 557
+    #vector_a = [i for i in range(-k,0)] + [i for i in range(1,k+1)] + [floor(N*m^(1/y)) + 1] 
+    #vector_a = [randint(-k,k) for i in range(N-1)] + [floor(N*m^(1/y)) + 1] 
+    vector_a = [randint(0,1) for i in range(N-1)] + [floor(N*m^(1/y))] 
     random.shuffle(vector_a[:N-1])
+    if N==509:
+        import numpy as np
+        a_vector_from_file_ = np.loadtxt(file_a, dtype='int')
+        a_vector_from_file = a_vector_from_file_.tolist()
+        vector_a =  a_vector_from_file  # for N=509, q=2048    
+    
     A = Zx(vector_a)
-    
-    # step 3
-    M_NTRU = matrix_for_the_lattice(N,q,exponent,A)
-    
     
     # step 4
     B =Convolution_in_R_p(A,e,N,m);
