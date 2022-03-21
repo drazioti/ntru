@@ -47,3 +47,6 @@ In the code (attack.py) there is an option in the function ```the_attack(.)``` t
 
 In [appendix.ipynb](./appendix.ipynb) there is  Fpylll code that checks suitable values (N,q,y) that satisfy the hypotheses of 
 Proposition.
+
+## Contribution
+Please report bugs (open an issue).
