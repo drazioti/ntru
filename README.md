@@ -10,7 +10,8 @@ The code is in [attack.py](./attack.py)
 
 References:
 
-[1] 
+[1] Marios Adamoudis, K. A. Draziotis, Message recovery attack to NTRU using a lattice independent from the public key, http://arxiv.org/abs/2203.09620
+
 
 ## Authors
 
