@@ -34,7 +34,7 @@ print(dec==M)   # we check if we find the message m(x)
 ### we set y
 y = 2.3
 A,k,vector_a,init_M_NTRU,Blist = initial_param(N,q,exponent,y)
-C_vector,M_vector=corrections(N,m,p,h,A,r)
+C_vector,M_vector=corrections(N,q,exponent,p,h,A,r)
 
 ### and the attack
 counts = 100
@@ -209,6 +209,7 @@ def gen_keys(N,d,p,q,e):
 def initial_param(N,q,exponent,y):
     import random
     # step 1
+    m = q^exponent
     k = (N-1)/2    
     # step 2
     # we uncomment the following line for N=677, 557
@@ -233,7 +234,8 @@ def initial_param(N,q,exponent,y):
     
     return A,k,vector_a,M_NTRU,Blist
     
-def corrections(N,m,p,h,A,r):
+def corrections(N,q,exponent,p,h,A,r):
+    m = q^exponent
     C1 = Convolution_in_R_p(-p*A,r[1],N,m)
     C = Convolution_in_R_p(C1,h,N,m);
     # E must be an approximation of C_vector in order the attack succeedd
