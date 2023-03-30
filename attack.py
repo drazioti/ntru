@@ -35,7 +35,7 @@ print(dec==M)   # we check if we find the message m(x)
 
 ### we set y
 y = 2.3
-A,k,vector_a,init_M_NTRU,B,Blist = initial_param(N,q,exponent,y)
+A,k,vector_a,init_M_NTRU,Blist = initial_param(N,q,exponent,y)
 C_vector,M_vector=corrections(N,m,p,h,A,r)
 
 ### and the attack
@@ -234,7 +234,7 @@ def initial_param(N,q,exponent,y):
     B =Convolution_in_R_p(A,e,N,m);
     Blist = B.coefficients(sparse=False);len(Blist)
     
-    return A,k,vector_a,M_NTRU,b,Blist
+    return A,k,vector_a,M_NTRU,Blist
     
 def corrections(N,m,p,h,A,r):
     C1 = Convolution_in_R_p(-p*A,r[1],N,m)
