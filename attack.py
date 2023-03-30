@@ -227,6 +227,9 @@ def initial_param(N,q,exponent,y):
     
     A = Zx(vector_a)
     
+    # step 3
+    M_NTRU = matrix_for_the_lattice(N,q,exponent,A)
+    
     # step 4
     B =Convolution_in_R_p(A,e,N,m);
     Blist = B.coefficients(sparse=False);len(Blist)
