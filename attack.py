@@ -7,6 +7,9 @@ Requirements : The code is written in Sagemath ver. 8.1
  REFERENCES:  http://www.sagemath.org/ 
  * Please report bugs *
 
+Sage Code
+==========
+# check the code in sagecell https://tinyurl.com/bdh4a27e
 N,d,p,q,exponent = nth_prime(55),91,3,2,8
 f,g,h=gen_keys(N,d,p,q,exponent)
 
