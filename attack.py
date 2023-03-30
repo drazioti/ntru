@@ -244,7 +244,7 @@ def corrections(N,m,p,h,A,r):
     C_vector = C.coefficients(sparse=False)
     # we correct the vectors by appending zeros in the case their dimension is <N
     
-    print len(M_vector),len(C_vector)
+    print(len(M_vector),len(C_vector))
     if len(M_vector)<N:
         diff = N - len(M_vector)
         M_vector.append(diff*[0])
@@ -254,7 +254,7 @@ def corrections(N,m,p,h,A,r):
         C_vector.append(diff*[0])
         C_vector=flatten(C_vector)
         
-    print len(M_vector),len(C_vector)
+    print(len(M_vector),len(C_vector))
     return C_vector,M_vector
     
 # step 5
@@ -318,8 +318,8 @@ def the_attack(N,m,p,h,A,r,Range,Blist,init_M_NTRU,M_NTRU1,counts,flag):
                 K.append(i)
         Len1 = Integer(len(K))
         percentage = ((Len-Len1)/Len) * 100
-        print "percentage:",float(percentage)
-        print "the lists differs in ",Len1," elements"
+        print("percentage:",float(percentage))
+        print("the lists differs in ",Len1," elements")
         return 
 
     print("N=",N)
@@ -344,8 +344,8 @@ def the_attack(N,m,p,h,A,r,Range,Blist,init_M_NTRU,M_NTRU1,counts,flag):
     
     for i in range(counts):
         start1 = time.time()
-        print "\n",i
-        print "======="
+        print("\n",i)
+        print("=======")
        
         # the oracle #
         E = oracle(N,m,p,h,A,r,Range) 
